@@ -206,3 +206,10 @@
 - Cómo demostrarlo: Ventana de 390px → Admin → Salones: antes columnas finales recortadas sin scroll; después la tabla se desplaza horizontalmente (scroll 680 > visible 308).
 - Estado: verificado — Playwright a 390px, evidencia .claude/evidence/FE-29/
 
+
+## FE-30  Insignias de estado se parten en dos líneas en móvil
+- Dónde: src/components/ui/badge.tsx:15
+- Problema: El Badge no tenía whitespace-nowrap ni shrink-0; dentro de un flex (cabecera de cada materia en Mis notas) se encogía y 'En curso' se partía en dos líneas ('En' / 'curso') a 390px.
+- Solución: Añadir shrink-0 y whitespace-nowrap a la clase base del Badge.
+- Cómo demostrarlo: Estudiante → Mis notas a 390px: antes 'En curso' ocupa dos líneas; después una sola (alto 20px).
+- Estado: verificado — navegador a 390px, alto de la insignia 20px (antes dos líneas)
