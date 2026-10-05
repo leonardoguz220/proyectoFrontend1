@@ -140,3 +140,10 @@
 - Cómo demostrarlo: Docente → Mis grupos sin parámetros: antes aparecen grupos de periodos cerrados; después solo los del periodo abierto (igual que el Inicio del docente).
 - Estado: corregido sin verificar
 
+## FE-21  Plan de evaluación: 'Te pasaste' cuando faltan porcentajes
+- Dónde: src/app/(app)/docente/grupos/[id]/evaluations-panel.tsx:44
+- Problema: remaining = total - 100 queda negativo cuando falta (60% → 'Te pasaste 40%') y positivo cuando sobra.
+- Solución: remaining = 100 - total.
+- Cómo demostrarlo: Docente → grupo → Evaluaciones con suma 60%: antes 'Te pasaste 40%'; después 'Faltan 40% para completar el plan'.
+- Estado: corregido sin verificar
+
