@@ -119,3 +119,10 @@
 - Cómo demostrarlo: POST /api/enrollments {group:...} → 400 (evidencia con curl). Después: Matricular → 'Quedaste matriculado…'.
 - Estado: corregido sin verificar (400 reproducido con curl)
 
+## FE-18  Admin: matricular envía 'group' en vez de 'groupId'
+- Dónde: src/components/admin/operations.tsx:337 (enrollments.toBody)
+- Problema: Mismo contrato: el backend espera groupId; el formulario 'Matricular estudiante' siempre fallaba con 400.
+- Solución: toBody → { student, groupId }.
+- Cómo demostrarlo: Admin → Matrículas → Matricular estudiante: antes 400; después crea la matrícula.
+- Estado: corregido sin verificar
+
