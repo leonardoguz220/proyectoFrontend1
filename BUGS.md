@@ -49,3 +49,10 @@
 - Cómo demostrarlo: Admin → Inicio con un periodo abierto: antes 0/0/0/0, después los conteos reales por estado.
 - Estado: corregido sin verificar
 
+## FE-08  Saludo del estudiante usa el apellido
+- Dónde: src/app/(app)/estudiante/page.tsx:22
+- Problema: split(' ')[1] toma la segunda palabra: 'Hola, Herrera' en vez de 'Hola, Juliana' (el docente usa [0]).
+- Solución: split(' ')[0].
+- Cómo demostrarlo: Login juliana.herrera147 → Inicio. Antes 'Hola, Herrera', después 'Hola, Juliana'.
+- Estado: corregido sin verificar
+
