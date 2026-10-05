@@ -12,7 +12,7 @@
 - Problema: La comparación pathname === p solo cubría /admin, /docente y /estudiante exactos; un estudiante podía abrir /admin/usuarios o /docente/grupos por URL.
 - Solución: Coincidir también con subrutas: pathname.startsWith(p + '/').
 - Cómo demostrarlo: Login como juliana.herrera147 → abrir /admin/usuarios. Antes carga la pantalla; después redirige a /estudiante.
-- Estado: corregido sin verificar
+- Estado: verificado — con sesión admin, GET /docente/grupos y /estudiante/notas → 307 a /admin (antes la regla solo cubría la ruta exacta).
 
 ## FE-03  Etiqueta del lunes mal escrita
 - Dónde: src/lib/format.ts:6
@@ -40,7 +40,7 @@
 - Problema: La tarjeta Docentes activos usaba d.active.students; la API devuelve active.teachers (99) y se mostraba 97.
 - Solución: value={d.active.teachers}
 - Cómo demostrarlo: Admin → Inicio. Antes Docentes activos = 97 (igual que estudiantes); después 99 (GET /api/reports/dashboard → active.teachers).
-- Estado: corregido sin verificar
+- Estado: verificado — Playwright: Admin → Inicio muestra Docentes activos = 99 (= active.teachers del API). Evidencia: .claude/evidence/FE-10/admin-inicio-despues.png
 
 ## FE-07  Matrículas por estado del periodo siempre en 0
 - Dónde: src/app/(app)/admin/page.tsx:58
@@ -61,21 +61,21 @@
 - Problema: El estado dirty nunca se ponía en true, y el botón exige dirty, así que no se podía cambiar el nombre.
 - Solución: Marcar dirty al editar el campo (setDirty(true) en onChange).
 - Cómo demostrarlo: Mi cuenta → cambiar el nombre. Antes el botón sigue deshabilitado; después se habilita y PATCH /api/users/me guarda.
-- Estado: corregido sin verificar
+- Estado: verificado — Playwright: botón disabled=true antes de escribir y disabled=false tras escribir (no se guardó). Evidencia: .claude/evidence/FE-09/
 
 ## FE-10  Menú lateral con texto blanco sobre fondo blanco
 - Dónde: src/components/app-shell.tsx:83, :106, :112
 - Problema: Los enlaces inactivos y los títulos de sección usaban text-white sobre bg-surface (#fff): el menú era invisible salvo el ítem activo.
 - Solución: Usar text-muted (como el resto de textos secundarios).
 - Cómo demostrarlo: Entrar con cualquier rol: antes solo se lee el ítem activo; después se ven todos los ítems y secciones.
-- Estado: corregido sin verificar
+- Estado: verificado — Playwright: menú completo legible. Evidencia: .claude/evidence/FE-10/admin-inicio-despues.png
 
 ## FE-11  Cancelar matrícula usa PATCH en vez de POST
 - Dónde: src/app/(app)/estudiante/materias/cancel-button.tsx:17
 - Problema: El backend expone POST /api/enrollments/:id/cancel (Swagger); con PATCH responde 404 y el estudiante no puede cancelar.
 - Solución: method: 'POST'.
 - Cómo demostrarlo: Estudiante → Mis materias → Cancelar → Sí, cancelar. Antes error 404 'Cannot PATCH'; después la matrícula queda cancelada.
-- Estado: corregido sin verificar
+- Estado: corregido; causa reproducida: PATCH /api/enrollments/:id/cancel → 404 "Cannot PATCH" (curl). Flujo completo sin verificar: el login de estudiante de prueba falla (dato de BD).
 
 ## FE-12  Mis materias no se actualiza tras cancelar
 - Dónde: src/app/(app)/estudiante/materias/cancel-button.tsx:22
@@ -159,21 +159,21 @@
 - Problema: Los filtros solo se agregaban a la URL cuando page === 1; en la página 2+ la lista mostraba registros de todos los estados/roles mezclados.
 - Solución: Enviar siempre los filtros activos.
 - Cómo demostrarlo: Admin → Usuarios, filtrar Rol=Docente, ir a 'Siguiente': antes aparecen estudiantes/admin y cambia el total; después siguen solo docentes.
-- Estado: corregido sin verificar
+- Estado: verificado — Playwright: Rol=Docente → Siguiente → request page=2&role=docente, 'Página 2 de 7 · 99 registros', solo Docentes. Evidencia: .claude/evidence/FE-23/
 
 ## FE-24  Admin Usuarios: el modal de edición no se puede cerrar
 - Dónde: src/components/admin/resource-manager.tsx:297
 - Problema: dirty comparaba los valores del formulario con la fila cruda del API (con _id, createdAt...), así que siempre era 'sucio'; con keepOpenIfDirty en Usuarios, Cancelar/cerrar nunca cerraba el modal de edición.
 - Solución: Comparar contra config.initial(row) (misma forma que values).
 - Cómo demostrarlo: Admin → Usuarios → Editar → Cancelar sin tocar nada: antes el modal no se cierra; después se cierra.
-- Estado: corregido sin verificar
+- Estado: verificado — Playwright: Editar → Cancelar → dialog cerrado.
 
 ## FE-25  Fechas de periodos se muestran un día antes
 - Dónde: src/lib/format.ts:20 (date)
 - Problema: Las fechas del API son medianoche UTC (2026-02-01T00:00Z); al formatear en hora local (UTC-4/-5) aparecían como 31 ene. El Inicio del estudiante ya usa timeZone UTC.
 - Solución: Formatear con timeZone: 'UTC'.
 - Cómo demostrarlo: Admin → Periodos: un periodo con startDate 2026-02-01 se mostraba '31 ene 2026'; después '1 feb 2026'.
-- Estado: corregido sin verificar
+- Estado: verificado — Playwright: 2027-1 (API 2027-02-02T00:00Z) se ve '2 de feb de 2027'. Evidencia: .claude/evidence/FE-25/
 
 ## FE-26  Cookies con tokens JWT commiteadas en el repo
 - Dónde: a.txt y s.txt (raíz)
