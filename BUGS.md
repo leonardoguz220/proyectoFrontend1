@@ -14,3 +14,10 @@
 - Cómo demostrarlo: Login como juliana.herrera147 → abrir /admin/usuarios. Antes carga la pantalla; después redirige a /estudiante.
 - Estado: corregido sin verificar
 
+## FE-03  Etiqueta del lunes mal escrita
+- Dónde: src/lib/format.ts:6
+- Problema: DAY_LABEL.lunes era 'Lrrrrunes'; aparece en horarios y formularios de grupos.
+- Solución: Cambiar a 'Lunes'.
+- Cómo demostrarlo: Estudiante → Horario / Admin → Grupos (días). Antes 'Lrrrrunes', después 'Lunes'.
+- Estado: corregido sin verificar
+
