@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { CheckCheck, Save } from "lucide-react";
 import { api, ApiError } from "@/lib/api";
 import { cn } from "@/lib/cn";
-import { grade, STATUS_LABEL, STATUS_TONE } from "@/lib/format";
+import { grade, plural, STATUS_LABEL, STATUS_TONE } from "@/lib/format";
 import type { BulkResult, FinalizeResult, GradeSheet } from "@/lib/types";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -215,7 +215,7 @@ export function GradeSheetPanel({ groupId, readOnly }: { groupId: string; readOn
             <Button onClick={save} loading={saving} disabled={!unsaved || invalid.length > 0}>
               <Save className="size-4" aria-hidden /> Guardar {unsaved ? `${changes.length} ${changes.length === 1 ? "cambio" : "cambios"}` : "cambios"}
             </Button>
-            {invalid.length > 0 && <span className="text-sm font-medium text-danger-600">Hay {invalid.length} notas inválidas (0 a 5, máx. 2 decimales).</span>}
+            {invalid.length > 0 && <span className="text-sm font-medium text-danger-600">Hay {plural(invalid.length, "nota inválida", "notas inválidas")} (0 a 5, máx. 2 decimales).</span>}
           </div>
 
           {confirming ? (

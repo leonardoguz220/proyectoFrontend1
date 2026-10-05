@@ -213,3 +213,10 @@
 - Solución: Añadir shrink-0 y whitespace-nowrap a la clase base del Badge.
 - Cómo demostrarlo: Estudiante → Mis notas a 390px: antes 'En curso' ocupa dos líneas; después una sola (alto 20px).
 - Estado: verificado — navegador a 390px, alto de la insignia 20px (antes dos líneas)
+
+## FE-31  Planilla dice 'Hay 1 notas inválidas'
+- Dónde: src/app/(app)/docente/grupos/[id]/grade-sheet-panel.tsx:218
+- Problema: El aviso de notas inválidas no manejaba el singular: con una sola celda mala mostraba 'Hay 1 notas inválidas'. El resto de la app usa plural() de format.ts.
+- Solución: Usar plural(invalid.length, 'nota inválida', 'notas inválidas').
+- Cómo demostrarlo: Docente → grupo → Notas → escribir 6 en una celda: antes 'Hay 1 notas inválidas'; después 'Hay 1 nota inválida'. Con dos celdas: 'Hay 2 notas inválidas'.
+- Estado: verificado — navegador: 1 celda → 'Hay 1 nota inválida'; 2 celdas → 'Hay 2 notas inválidas'
