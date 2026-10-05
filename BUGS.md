@@ -63,3 +63,10 @@
 - Cómo demostrarlo: Mi cuenta → cambiar el nombre. Antes el botón sigue deshabilitado; después se habilita y PATCH /api/users/me guarda.
 - Estado: corregido sin verificar
 
+## FE-10  Menú lateral con texto blanco sobre fondo blanco
+- Dónde: src/components/app-shell.tsx:83, :106, :112
+- Problema: Los enlaces inactivos y los títulos de sección usaban text-white sobre bg-surface (#fff): el menú era invisible salvo el ítem activo.
+- Solución: Usar text-muted (como el resto de textos secundarios).
+- Cómo demostrarlo: Entrar con cualquier rol: antes solo se lee el ítem activo; después se ven todos los ítems y secciones.
+- Estado: corregido sin verificar
+
