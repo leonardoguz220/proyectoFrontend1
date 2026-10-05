@@ -70,3 +70,10 @@
 - Cómo demostrarlo: Entrar con cualquier rol: antes solo se lee el ítem activo; después se ven todos los ítems y secciones.
 - Estado: corregido sin verificar
 
+## FE-11  Cancelar matrícula usa PATCH en vez de POST
+- Dónde: src/app/(app)/estudiante/materias/cancel-button.tsx:17
+- Problema: El backend expone POST /api/enrollments/:id/cancel (Swagger); con PATCH responde 404 y el estudiante no puede cancelar.
+- Solución: method: 'POST'.
+- Cómo demostrarlo: Estudiante → Mis materias → Cancelar → Sí, cancelar. Antes error 404 'Cannot PATCH'; después la matrícula queda cancelada.
+- Estado: corregido sin verificar
+
