@@ -1,5 +1,8 @@
 # Bugs Frontend
 
+> Entorno: frontend http://localhost:3001 (BACKEND_URL=http://localhost:3000), backend NestJS en :3000/api. Contrato contrastado con Swagger (/api/docs-json) y los DTOs del backend (solo lectura).
+> Bloqueos de verificación (datos, no frontend): el login de juliana.herrera147 y laura.lopez89 con Secret123! responde "Credenciales invalidas"; por eso los flujos de estudiante y docente quedan "corregido sin verificar".
+
 ## FE-01  BACKEND_URL de .env.example apunta al puerto 3005
 - Dónde: .env.example:2
 - Problema: El backend corre en http://localhost:3000; con 3005 el proxy /api/... no conecta y toda llamada da 502 'No se pudo conectar con el servidor'.
@@ -200,6 +203,6 @@
 - Dónde: src/components/admin/resource-manager.tsx:187
 - Problema: La tabla (min-w 40rem) estaba dentro de un Card overflow-hidden sin contenedor con scroll: en móvil se recortaban columnas, incluida 'Acciones' (editar/cancelar inaccesibles). El resto de tablas de la app usan overflow-x-auto.
 - Solución: Envolver la tabla en <div className="overflow-x-auto">.
-- Cómo demostrarlo: Ventana de 390px → Admin → Salones: antes columnas finales recortadas sin scroll; después la tabla se desplaza horizontalmente (scroll 640 > visible).
+- Cómo demostrarlo: Ventana de 390px → Admin → Salones: antes columnas finales recortadas sin scroll; después la tabla se desplaza horizontalmente (scroll 680 > visible 308).
 - Estado: verificado — Playwright a 390px, evidencia .claude/evidence/FE-29/
 
