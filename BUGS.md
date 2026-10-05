@@ -77,3 +77,10 @@
 - Cómo demostrarlo: Estudiante → Mis materias → Cancelar → Sí, cancelar. Antes error 404 'Cannot PATCH'; después la matrícula queda cancelada.
 - Estado: corregido sin verificar
 
+## FE-12  Mis materias no se actualiza tras cancelar
+- Dónde: src/app/(app)/estudiante/materias/cancel-button.tsx:22
+- Problema: Tras cancelar con éxito no se recargaban los datos del servidor: la materia seguía como 'En curso' con botón Cancelar hasta recargar a mano.
+- Solución: router.refresh() después de cancelar.
+- Cómo demostrarlo: Cancelar una matrícula propia: antes sigue 'En curso'; después pasa a 'Cancelada' sin recargar.
+- Estado: corregido sin verificar
+
