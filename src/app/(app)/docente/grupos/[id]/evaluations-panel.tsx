@@ -103,7 +103,7 @@ export function EvaluationsPanel({ groupId, readOnly }: { groupId: string; readO
                       <div className="w-28">
                         <Field label="Peso (%)" name={`w-${ev._id}`} type="number" min={1} max={100} value={editWeight} onChange={(e) => setEditWeight(e.target.value)} />
                       </div>
-                      <Button loading={busy} onClick={() => saveEdit(ev._id)} disabled={!editName.trim() || !editWeight}>
+                      <Button loading={busy} onClick={() => saveEdit(ev._id)} disabled={!editName.trim() || !editWeight || Number(editWeight) < 1 || Number(editWeight) > 100}>
                         Guardar
                       </Button>
                       <Button variant="ghost" onClick={() => setEditing(null)} disabled={busy}>
@@ -184,7 +184,7 @@ export function EvaluationsPanel({ groupId, readOnly }: { groupId: string; readO
             <form onSubmit={add} className="space-y-4" noValidate>
               <Field label="Nombre" name="new-name" placeholder="Parcial 1" value={name} onChange={(e) => setName(e.target.value)} />
               <Field label="Peso (%)" name="new-weight" type="number" min={1} max={100} placeholder="25" value={weight} onChange={(e) => setWeight(e.target.value)} />
-              <Button type="submit" loading={adding} disabled={!name.trim() || !weight || busy} className="w-full">
+              <Button type="submit" loading={adding} disabled={!name.trim() || !weight || Number(weight) < 1 || Number(weight) > 100 || busy} className="w-full">
                 <Plus className="size-4" aria-hidden /> Agregar
               </Button>
             </form>

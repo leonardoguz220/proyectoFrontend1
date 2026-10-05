@@ -220,3 +220,10 @@
 - Solución: Usar plural(invalid.length, 'nota inválida', 'notas inválidas').
 - Cómo demostrarlo: Docente → grupo → Notas → escribir 6 en una celda: antes 'Hay 1 notas inválidas'; después 'Hay 1 nota inválida'. Con dos celdas: 'Hay 2 notas inválidas'.
 - Estado: verificado — navegador: 1 celda → 'Hay 1 nota inválida'; 2 celdas → 'Hay 2 notas inválidas'
+## FE-32  Peso de evaluación acepta 0, negativos o más de 100
+- Dónde: src/app/(app)/docente/grupos/[id]/evaluations-panel.tsx:106 y :187
+- Problema: Los botones Agregar/Guardar solo exigían que hubiera un peso; 0, -5 o 150 se enviaban y el usuario solo veía el rechazo del backend (min 1, max 100 como dice el propio input).
+- Solución: Deshabilitar Agregar/Guardar si el peso es < 1 o > 100.
+- Cómo demostrarlo: Docente → grupo → Evaluaciones → Nueva evaluación con peso 0/150/-5: antes el botón se habilitaba; después queda deshabilitado y con 25 se habilita (no se guardó nada).
+- Estado: verificado — Playwright: 0:true 150:true -5:true 25:false
+
