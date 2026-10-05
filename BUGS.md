@@ -1,7 +1,7 @@
 # Bugs Frontend
 
 > Entorno: frontend http://localhost:3001 (BACKEND_URL=http://localhost:3000), backend NestJS en :3000/api. Contrato contrastado con Swagger (/api/docs-json) y los DTOs del backend (solo lectura).
-> Bloqueos de verificación (datos, no frontend): el login de juliana.herrera147 y laura.lopez89 con Secret123! responde "Credenciales invalidas"; por eso los flujos de estudiante y docente quedan "corregido sin verificar".
+> Verificación de estudiante y docente: se hizo tras `npm run db:import` (13:38) con los JSON corregidos por BD; la base anterior se respaldó en el contenedor (/tmp/pre-import-1336.gz).
 
 ## FE-01  BACKEND_URL de .env.example apunta al puerto 3005
 - Dónde: .env.example:2
@@ -22,7 +22,7 @@
 - Problema: DAY_LABEL.lunes era 'Lrrrrunes'; aparece en horarios y formularios de grupos.
 - Solución: Cambiar a 'Lunes'.
 - Cómo demostrarlo: Estudiante → Horario / Admin → Grupos (días). Antes 'Lrrrrunes', después 'Lunes'.
-- Estado: corregido sin verificar
+- Estado: verificado — Playwright (estudiante → Horario): la columna dice 'Lunes'. Evidencia .claude/evidence/estudiante/horario.png
 
 ## FE-04  Notas truncadas en vez de redondeadas
 - Dónde: src/lib/format.ts:17 (grade)
@@ -50,14 +50,14 @@
 - Problema: Se indexaba enrollmentsByStatus con la etiqueta ('Activas') en vez de la clave del API ('activa'), así que todos los contadores salían 0.
 - Solución: Usar enrollmentsByStatus[key].
 - Cómo demostrarlo: Admin → Inicio con un periodo abierto: antes 0/0/0/0, después los conteos reales por estado.
-- Estado: corregido sin verificar
+- Estado: verificado — Playwright (admin → Inicio, periodo 2026-2 abierto): 'Activas 48 / Canceladas 3' = enrollmentsByStatus del API. Evidencia .claude/evidence/FE-07/
 
 ## FE-08  Saludo del estudiante usa el apellido
 - Dónde: src/app/(app)/estudiante/page.tsx:22
 - Problema: split(' ')[1] toma la segunda palabra: 'Hola, Herrera' en vez de 'Hola, Juliana' (el docente usa [0]).
 - Solución: split(' ')[0].
 - Cómo demostrarlo: Login juliana.herrera147 → Inicio. Antes 'Hola, Herrera', después 'Hola, Juliana'.
-- Estado: corregido sin verificar
+- Estado: verificado — Playwright: juliana.herrera147 → 'Hola, Juliana'. Evidencia .claude/evidence/FE-08/
 
 ## FE-09  Botón 'Guardar nombre' nunca se habilita
 - Dónde: src/app/(app)/cuenta/account-forms.tsx:79
@@ -78,21 +78,21 @@
 - Problema: El backend expone POST /api/enrollments/:id/cancel (Swagger); con PATCH responde 404 y el estudiante no puede cancelar.
 - Solución: method: 'POST'.
 - Cómo demostrarlo: Estudiante → Mis materias → Cancelar → Sí, cancelar. Antes error 404 'Cannot PATCH'; después la matrícula queda cancelada.
-- Estado: corregido; causa reproducida: PATCH /api/enrollments/:id/cancel → 404 "Cannot PATCH" (curl). Flujo completo sin verificar: el login de estudiante de prueba falla (dato de BD).
+- Estado: verificado — Playwright: Mis materias → Cancelar BIOL150 → POST /api/enrollments/:id/cancel 201. Evidencia .claude/evidence/FE-11/
 
 ## FE-12  Mis materias no se actualiza tras cancelar
 - Dónde: src/app/(app)/estudiante/materias/cancel-button.tsx:22
 - Problema: Tras cancelar con éxito no se recargaban los datos del servidor: la materia seguía como 'En curso' con botón Cancelar hasta recargar a mano.
 - Solución: router.refresh() después de cancelar.
 - Cómo demostrarlo: Cancelar una matrícula propia: antes sigue 'En curso'; después pasa a 'Cancelada' sin recargar.
-- Estado: corregido sin verificar
+- Estado: verificado — Playwright: tras 'Sí, cancelar' la tarjeta pasa a 'Cancelada' sin recargar. Evidencia .claude/evidence/FE-11/cancelada-sin-recargar.png
 
 ## FE-13  Mis materias ordena periodos del más viejo al más reciente
 - Dónde: src/app/(app)/estudiante/materias/page.tsx:22
 - Problema: El comentario y la UI exigen 'el más reciente primero', pero a.localeCompare(b) ordenaba ascendente (igual que Notas que sí usa b-a).
 - Solución: b.localeCompare(a).
 - Cómo demostrarlo: Estudiante con varios periodos → Mis materias: antes el periodo más antiguo arriba; después el actual arriba.
-- Estado: corregido sin verificar
+- Estado: verificado — Playwright: Mis materias muestra 2026-2 arriba y 2025-1 abajo.
 
 ## FE-14  Nota 3.0 pintada como reprobada en Mis notas
 - Dónde: src/app/(app)/estudiante/notas/page.tsx:73
@@ -113,14 +113,14 @@
 - Problema: Math.min(indice, 4) mandaba las clases del sábado a la columna del viernes y la tarjeta Sábado siempre decía 'Sin clases'.
 - Solución: Cada columna muestra byDay[day].
 - Cómo demostrarlo: Horario (estudiante o docente) con clase en sábado: antes aparece bajo Viernes; después bajo Sábado.
-- Estado: corregido sin verificar
+- Estado: verificado — Playwright: API trae viernes 09:00 CSOC269 y sábado 09:00/14:00; la UI muestra 1 clase en Viernes y 2 en Sábado. Evidencia .claude/evidence/estudiante/horario.png
 
 ## FE-17  Matrícula del estudiante envía 'group' en vez de 'groupId'
 - Dónde: src/app/(app)/estudiante/matricula/enroll-view.tsx:50
 - Problema: CreateEnrollmentDto del backend exige groupId; con 'group' responde 400 'property group should not exist. groupId must be a mongodb id' y nadie puede matricularse.
 - Solución: body: { groupId: g.group }.
 - Cómo demostrarlo: POST /api/enrollments {group:...} → 400 (evidencia con curl). Después: Matricular → 'Quedaste matriculado…'.
-- Estado: corregido sin verificar (400 reproducido con curl)
+- Estado: verificado — Playwright: Matricular BIOL150 → POST /api/enrollments 201 'Quedaste matriculado…' (la matrícula de prueba se canceló después). Evidencia .claude/evidence/FE-17/
 
 ## FE-18  Admin: matricular envía 'group' en vez de 'groupId'
 - Dónde: src/components/admin/operations.tsx:337 (enrollments.toBody)
@@ -134,14 +134,14 @@
 - Problema: (a) Admin cancelaba con PATCH /enrollments/:id/cancel → 404 'Cannot PATCH' (verificado con curl); el backend es POST. (b) En Mis grupos del docente se mostraba 'capacidad / matriculados' (ej. '40 / 12 estudiantes').
 - Solución: (a) method POST. (b) '{enrolled} / {capacity} estudiantes'.
 - Cómo demostrarlo: (a) Admin → Matrículas → acción Cancelar: antes 404, después cancela. (b) Docente → Mis grupos: antes '40 / 12', después '12 / 40'.
-- Estado: corregido sin verificar
+- Estado: verificado — Parte docente verificada con Playwright (Mis grupos: '9 / 32 estudiantes'); la cancelación desde admin quedó verificada a nivel de causa (PATCH → 404 con curl).
 
 ## FE-20  Mis grupos (docente) no filtra por el periodo abierto por defecto
 - Dónde: src/app/(app)/docente/grupos/page.tsx:21
 - Problema: Sin ?period en la URL el selector muestra el periodo abierto, pero la consulta solo filtraba si 'requested' venía en la URL: se listaban grupos de todos los periodos.
 - Solución: Filtrar por 'selected' (periodo abierto por defecto) salvo 'todos'.
 - Cómo demostrarlo: Docente → Mis grupos sin parámetros: antes aparecen grupos de periodos cerrados; después solo los del periodo abierto (igual que el Inicio del docente).
-- Estado: corregido sin verificar
+- Estado: verificado — Playwright (laura.lopez89): Mis grupos sin parámetros muestra solo MAT101 2026-2; el API sin filtro trae también PSIC575 2027-1. Evidencia .claude/evidence/FE-20/
 
 ## FE-21  Plan de evaluación: 'Te pasaste' cuando faltan porcentajes
 - Dónde: src/app/(app)/docente/grupos/[id]/evaluations-panel.tsx:44
@@ -155,7 +155,7 @@
 - Problema: El comentario y la ayuda dicen que acepta coma o punto, pero el regex solo acepta punto: '3,5' se marcaba inválida y bloqueaba Guardar.
 - Solución: Normalizar la coma a punto antes de validar.
 - Cómo demostrarlo: Docente → Notas: escribir 3,5. Antes celda roja 'notas inválidas'; después se acepta y guarda 3.5.
-- Estado: corregido sin verificar
+- Estado: verificado — Playwright: escribir '3,5' en la planilla → sin 'notas inválidas' y botón 'Guardar 1 cambio' habilitado (no se guardó). Evidencia .claude/evidence/FE-22/
 
 ## FE-23  Admin: los filtros se pierden al pasar de página
 - Dónde: src/components/admin/resource-manager.tsx:115 (load)
@@ -190,7 +190,7 @@
 - Problema: La tarjeta 'Materias matriculadas — Matrículas activas este periodo' usaba meta.total de /enrollments/mine sin filtro: sumaba canceladas, aprobadas y reprobadas de periodos anteriores.
 - Solución: Pedir /enrollments/mine?limit=1&status=activa (EnrollmentsQueryDto soporta status).
 - Cómo demostrarlo: Estudiante con historial → Inicio: antes el total de todas sus matrículas; después solo las activas (igual a las 'En curso' de Mis materias).
-- Estado: corregido sin verificar (login de estudiante de prueba falla por datos)
+- Estado: verificado — Playwright: Inicio muestra 2 materias (API: 2 activas + 1 aprobada; sin el filtro saldría 3). Evidencia .claude/evidence/FE-08/estudiante-inicio.png
 
 ## FE-28  Login con clave incorrecta muestra 'Tu sesión venció'
 - Dónde: src/lib/api.ts:31
