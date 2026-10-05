@@ -147,3 +147,10 @@
 - Cómo demostrarlo: Docente → grupo → Evaluaciones con suma 60%: antes 'Te pasaste 40%'; después 'Faltan 40% para completar el plan'.
 - Estado: corregido sin verificar
 
+## FE-22  Planilla rechaza notas con coma decimal
+- Dónde: src/app/(app)/docente/grupos/[id]/grade-sheet-panel.tsx:19 (parse)
+- Problema: El comentario y la ayuda dicen que acepta coma o punto, pero el regex solo acepta punto: '3,5' se marcaba inválida y bloqueaba Guardar.
+- Solución: Normalizar la coma a punto antes de validar.
+- Cómo demostrarlo: Docente → Notas: escribir 3,5. Antes celda roja 'notas inválidas'; después se acepta y guarda 3.5.
+- Estado: corregido sin verificar
+
