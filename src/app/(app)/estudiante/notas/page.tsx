@@ -37,7 +37,8 @@ export default async function GradesPage() {
             const evaluations = plans[i].data;
             const rows = evaluations.map((ev) => ({ ev, value: myGrades.get(`${e._id}:${ev._id}`) }));
             const graded = rows.filter((r) => r.value !== undefined);
-            const points = graded.length > 0 ? graded.reduce((sum, r) => sum + (r.value ?? 0), 0) / graded.length : 0;
+            const weight = graded.reduce((sum, r) => sum + r.ev.weight, 0);
+            const points = weight > 0 ? graded.reduce((sum, r) => sum + (r.value ?? 0) * r.ev.weight, 0) / weight : 0;
             const evaluated = rows.reduce((sum, r) => sum + (r.value !== undefined ? r.ev.weight : 0), 0);
 
             return (

@@ -98,3 +98,10 @@
 - Cómo demostrarlo: Evaluación con nota 3.0 → antes en rojo; después en verde.
 - Estado: corregido sin verificar
 
+## FE-15  Acumulado de notas sin ponderar por peso
+- Dónde: src/app/(app)/estudiante/notas/page.tsx:40
+- Problema: El acumulado era el promedio simple de las notas, ignorando el peso de cada evaluación; el backend (academic.service average) pondera por peso.
+- Solución: Promedio ponderado: suma(nota*peso)/suma(pesos evaluados).
+- Cómo demostrarlo: Grupo con evaluaciones 20% nota 5.0 y 30% nota 2.0: antes 3.50, después 3.20 (igual que la planilla del docente).
+- Estado: corregido sin verificar
+
