@@ -21,3 +21,10 @@
 - Cómo demostrarlo: Estudiante → Horario / Admin → Grupos (días). Antes 'Lrrrrunes', después 'Lunes'.
 - Estado: corregido sin verificar
 
+## FE-04  Notas truncadas en vez de redondeadas
+- Dónde: src/lib/format.ts:17 (grade)
+- Problema: Math.floor trunca: 2.96 se mostraba 2.9 (parece reprobado aunque es 3.0) y 4.46 como 4.4.
+- Solución: Usar Math.round(value*10)/10.
+- Cómo demostrarlo: Ver una nota con dos decimales (p. ej. definitiva 2.96) en Notas/planilla: antes 2.9, después 3.0.
+- Estado: corregido sin verificar
+

@@ -14,7 +14,7 @@ export const DAY_LABEL: Record<Day, string> = {
 export const DAY_SHORT: Record<Day, string> = { lunes: "Lun", martes: "Mar", miercoles: "Mié", jueves: "Jue", viernes: "Vie", sabado: "Sáb" };
 
 // Escala colombiana 0.0 - 5.0, un decimal en pantalla ("4.5"); sin nota -> guion
-export const grade = (value?: number | null): string => (value === undefined || value === null ? "—" : (Math.floor(value * 10) / 10).toFixed(1));
+export const grade = (value?: number | null): string => (value === undefined || value === null ? "—" : (Math.round(value * 10) / 10).toFixed(1));
 
 export const date = (iso: string): string =>
   new Date(iso).toLocaleDateString("es-CO", { day: "numeric", month: "short", year: "numeric" });
