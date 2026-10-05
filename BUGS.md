@@ -84,3 +84,10 @@
 - Cómo demostrarlo: Cancelar una matrícula propia: antes sigue 'En curso'; después pasa a 'Cancelada' sin recargar.
 - Estado: corregido sin verificar
 
+## FE-13  Mis materias ordena periodos del más viejo al más reciente
+- Dónde: src/app/(app)/estudiante/materias/page.tsx:22
+- Problema: El comentario y la UI exigen 'el más reciente primero', pero a.localeCompare(b) ordenaba ascendente (igual que Notas que sí usa b-a).
+- Solución: b.localeCompare(a).
+- Cómo demostrarlo: Estudiante con varios periodos → Mis materias: antes el periodo más antiguo arriba; después el actual arriba.
+- Estado: corregido sin verificar
+
