@@ -126,3 +126,10 @@
 - Cómo demostrarlo: Admin → Matrículas → Matricular estudiante: antes 400; después crea la matrícula.
 - Estado: corregido sin verificar
 
+## FE-19  Admin: cancelar matrícula usa PATCH (cambio incluido en el commit de FE-18) + Docente: cupo invertido
+- Dónde: src/components/admin/operations.tsx:346 y src/app/(app)/docente/grupos/page.tsx:52
+- Problema: (a) Admin cancelaba con PATCH /enrollments/:id/cancel → 404 'Cannot PATCH' (verificado con curl); el backend es POST. (b) En Mis grupos del docente se mostraba 'capacidad / matriculados' (ej. '40 / 12 estudiantes').
+- Solución: (a) method POST. (b) '{enrolled} / {capacity} estudiantes'.
+- Cómo demostrarlo: (a) Admin → Matrículas → acción Cancelar: antes 404, después cancela. (b) Docente → Mis grupos: antes '40 / 12', después '12 / 40'.
+- Estado: corregido sin verificar
+
