@@ -56,3 +56,10 @@
 - Cómo demostrarlo: Login juliana.herrera147 → Inicio. Antes 'Hola, Herrera', después 'Hola, Juliana'.
 - Estado: corregido sin verificar
 
+## FE-09  Botón 'Guardar nombre' nunca se habilita
+- Dónde: src/app/(app)/cuenta/account-forms.tsx:79
+- Problema: El estado dirty nunca se ponía en true, y el botón exige dirty, así que no se podía cambiar el nombre.
+- Solución: Marcar dirty al editar el campo (setDirty(true) en onChange).
+- Cómo demostrarlo: Mi cuenta → cambiar el nombre. Antes el botón sigue deshabilitado; después se habilita y PATCH /api/users/me guarda.
+- Estado: corregido sin verificar
+
