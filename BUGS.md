@@ -189,3 +189,10 @@
 - Cómo demostrarlo: Estudiante con historial → Inicio: antes el total de todas sus matrículas; después solo las activas (igual a las 'En curso' de Mis materias).
 - Estado: corregido sin verificar (login de estudiante de prueba falla por datos)
 
+## FE-28  Login con clave incorrecta muestra 'Tu sesión venció'
+- Dónde: src/lib/api.ts:31
+- Problema: api() trataba todo 401 como sesión vencida y redirigía a /login?expired=1; el login con credenciales malas también responde 401, así que el usuario nunca veía 'Credenciales inválidas'.
+- Solución: No aplicar la redirección de sesión vencida a la llamada /auth/login.
+- Cómo demostrarlo: Login admin@universidad.edu con clave 'Incorrecta1': antes URL /login?expired=1 y 'Tu sesión venció'; después se queda en /login con 'Credenciales invalidas'.
+- Estado: verificado — Playwright, evidencia .claude/evidence/FE-28/ (antes y después)
+
