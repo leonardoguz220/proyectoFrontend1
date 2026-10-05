@@ -105,3 +105,10 @@
 - Cómo demostrarlo: Grupo con evaluaciones 20% nota 5.0 y 30% nota 2.0: antes 3.50, después 3.20 (igual que la planilla del docente).
 - Estado: corregido sin verificar
 
+## FE-16  Clases del sábado aparecen en el viernes
+- Dónde: src/components/week-schedule.tsx:15
+- Problema: Math.min(indice, 4) mandaba las clases del sábado a la columna del viernes y la tarjeta Sábado siempre decía 'Sin clases'.
+- Solución: Cada columna muestra byDay[day].
+- Cómo demostrarlo: Horario (estudiante o docente) con clase en sábado: antes aparece bajo Viernes; después bajo Sábado.
+- Estado: corregido sin verificar
+
