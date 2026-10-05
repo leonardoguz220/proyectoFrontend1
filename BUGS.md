@@ -182,3 +182,10 @@
 - Cómo demostrarlo: git ls-files | grep -E 'a.txt|s.txt' → antes aparecen; después vacío.
 - Estado: verificado
 
+## FE-27  Inicio del estudiante cuenta todas sus matrículas como activas
+- Dónde: src/app/(app)/estudiante/page.tsx:16
+- Problema: La tarjeta 'Materias matriculadas — Matrículas activas este periodo' usaba meta.total de /enrollments/mine sin filtro: sumaba canceladas, aprobadas y reprobadas de periodos anteriores.
+- Solución: Pedir /enrollments/mine?limit=1&status=activa (EnrollmentsQueryDto soporta status).
+- Cómo demostrarlo: Estudiante con historial → Inicio: antes el total de todas sus matrículas; después solo las activas (igual a las 'En curso' de Mis materias).
+- Estado: corregido sin verificar (login de estudiante de prueba falla por datos)
+
