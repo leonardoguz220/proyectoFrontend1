@@ -196,3 +196,10 @@
 - Cómo demostrarlo: Login admin@universidad.edu con clave 'Incorrecta1': antes URL /login?expired=1 y 'Tu sesión venció'; después se queda en /login con 'Credenciales invalidas'.
 - Estado: verificado — Playwright, evidencia .claude/evidence/FE-28/ (antes y después)
 
+## FE-29  Tablas de administración cortan columnas en pantallas angostas
+- Dónde: src/components/admin/resource-manager.tsx:187
+- Problema: La tabla (min-w 40rem) estaba dentro de un Card overflow-hidden sin contenedor con scroll: en móvil se recortaban columnas, incluida 'Acciones' (editar/cancelar inaccesibles). El resto de tablas de la app usan overflow-x-auto.
+- Solución: Envolver la tabla en <div className="overflow-x-auto">.
+- Cómo demostrarlo: Ventana de 390px → Admin → Salones: antes columnas finales recortadas sin scroll; después la tabla se desplaza horizontalmente (scroll 640 > visible).
+- Estado: verificado — Playwright a 390px, evidencia .claude/evidence/FE-29/
+
