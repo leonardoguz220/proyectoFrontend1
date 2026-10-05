@@ -175,3 +175,10 @@
 - Cómo demostrarlo: Admin → Periodos: un periodo con startDate 2026-02-01 se mostraba '31 ene 2026'; después '1 feb 2026'.
 - Estado: corregido sin verificar
 
+## FE-26  Cookies con tokens JWT commiteadas en el repo
+- Dónde: a.txt y s.txt (raíz)
+- Problema: Eran archivos cookie-jar de curl con el token httpOnly de un admin y de otro usuario: filtran sesiones válidas (expiran en 2026-09) y no forman parte del proyecto.
+- Solución: git rm a.txt s.txt y añadirlos a .gitignore.
+- Cómo demostrarlo: git ls-files | grep -E 'a.txt|s.txt' → antes aparecen; después vacío.
+- Estado: verificado
+
