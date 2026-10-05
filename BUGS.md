@@ -91,3 +91,10 @@
 - Cómo demostrarlo: Estudiante con varios periodos → Mis materias: antes el periodo más antiguo arriba; después el actual arriba.
 - Estado: corregido sin verificar
 
+## FE-14  Nota 3.0 pintada como reprobada en Mis notas
+- Dónde: src/app/(app)/estudiante/notas/page.tsx:73
+- Problema: value <= PASSING marca en rojo un 3.0, pero se aprueba con 3.0 o más (README y subtítulo de la pantalla).
+- Solución: value < PASSING.
+- Cómo demostrarlo: Evaluación con nota 3.0 → antes en rojo; después en verde.
+- Estado: corregido sin verificar
+
