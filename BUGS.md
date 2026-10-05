@@ -7,3 +7,10 @@
 - Cómo demostrarlo: cp .env.example .env.local; npm run dev; login → antes 502, después entra al panel.
 - Estado: verificado
 
+## FE-02  proxy solo protegía la raíz de cada área por rol
+- Dónde: src/proxy.ts:20
+- Problema: La comparación pathname === p solo cubría /admin, /docente y /estudiante exactos; un estudiante podía abrir /admin/usuarios o /docente/grupos por URL.
+- Solución: Coincidir también con subrutas: pathname.startsWith(p + '/').
+- Cómo demostrarlo: Login como juliana.herrera147 → abrir /admin/usuarios. Antes carga la pantalla; después redirige a /estudiante.
+- Estado: corregido sin verificar
+
