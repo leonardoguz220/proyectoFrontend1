@@ -161,3 +161,10 @@
 - Cómo demostrarlo: Admin → Usuarios, filtrar Rol=Docente, ir a 'Siguiente': antes aparecen estudiantes/admin y cambia el total; después siguen solo docentes.
 - Estado: corregido sin verificar
 
+## FE-24  Admin Usuarios: el modal de edición no se puede cerrar
+- Dónde: src/components/admin/resource-manager.tsx:297
+- Problema: dirty comparaba los valores del formulario con la fila cruda del API (con _id, createdAt...), así que siempre era 'sucio'; con keepOpenIfDirty en Usuarios, Cancelar/cerrar nunca cerraba el modal de edición.
+- Solución: Comparar contra config.initial(row) (misma forma que values).
+- Cómo demostrarlo: Admin → Usuarios → Editar → Cancelar sin tocar nada: antes el modal no se cierra; después se cierra.
+- Estado: corregido sin verificar
+
