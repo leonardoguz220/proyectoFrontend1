@@ -42,3 +42,10 @@
 - Cómo demostrarlo: Admin → Inicio. Antes Docentes activos = 97 (igual que estudiantes); después 99 (GET /api/reports/dashboard → active.teachers).
 - Estado: corregido sin verificar
 
+## FE-07  Matrículas por estado del periodo siempre en 0
+- Dónde: src/app/(app)/admin/page.tsx:58
+- Problema: Se indexaba enrollmentsByStatus con la etiqueta ('Activas') en vez de la clave del API ('activa'), así que todos los contadores salían 0.
+- Solución: Usar enrollmentsByStatus[key].
+- Cómo demostrarlo: Admin → Inicio con un periodo abierto: antes 0/0/0/0, después los conteos reales por estado.
+- Estado: corregido sin verificar
+
