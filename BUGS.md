@@ -168,3 +168,10 @@
 - Cómo demostrarlo: Admin → Usuarios → Editar → Cancelar sin tocar nada: antes el modal no se cierra; después se cierra.
 - Estado: corregido sin verificar
 
+## FE-25  Fechas de periodos se muestran un día antes
+- Dónde: src/lib/format.ts:20 (date)
+- Problema: Las fechas del API son medianoche UTC (2026-02-01T00:00Z); al formatear en hora local (UTC-4/-5) aparecían como 31 ene. El Inicio del estudiante ya usa timeZone UTC.
+- Solución: Formatear con timeZone: 'UTC'.
+- Cómo demostrarlo: Admin → Periodos: un periodo con startDate 2026-02-01 se mostraba '31 ene 2026'; después '1 feb 2026'.
+- Estado: corregido sin verificar
+
