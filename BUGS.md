@@ -112,3 +112,10 @@
 - Cómo demostrarlo: Horario (estudiante o docente) con clase en sábado: antes aparece bajo Viernes; después bajo Sábado.
 - Estado: corregido sin verificar
 
+## FE-17  Matrícula del estudiante envía 'group' en vez de 'groupId'
+- Dónde: src/app/(app)/estudiante/matricula/enroll-view.tsx:50
+- Problema: CreateEnrollmentDto del backend exige groupId; con 'group' responde 400 'property group should not exist. groupId must be a mongodb id' y nadie puede matricularse.
+- Solución: body: { groupId: g.group }.
+- Cómo demostrarlo: POST /api/enrollments {group:...} → 400 (evidencia con curl). Después: Matricular → 'Quedaste matriculado…'.
+- Estado: corregido sin verificar (400 reproducido con curl)
+
