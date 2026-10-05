@@ -35,3 +35,10 @@
 - Cómo demostrarlo: Estudiante con una materia reprobada → Historial. Antes 'Aprobada' (en rojo), después 'Reprobada'.
 - Estado: corregido sin verificar
 
+## FE-06  Panel admin muestra estudiantes en 'Docentes activos'
+- Dónde: src/app/(app)/admin/page.tsx:23
+- Problema: La tarjeta Docentes activos usaba d.active.students; la API devuelve active.teachers (99) y se mostraba 97.
+- Solución: value={d.active.teachers}
+- Cómo demostrarlo: Admin → Inicio. Antes Docentes activos = 97 (igual que estudiantes); después 99 (GET /api/reports/dashboard → active.teachers).
+- Estado: corregido sin verificar
+
