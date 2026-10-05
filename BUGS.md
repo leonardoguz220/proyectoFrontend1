@@ -28,3 +28,10 @@
 - Cómo demostrarlo: Ver una nota con dos decimales (p. ej. definitiva 2.96) en Notas/planilla: antes 2.9, después 3.0.
 - Estado: corregido sin verificar
 
+## FE-05  Estado reprobada mostrado como 'Aprobada'
+- Dónde: src/lib/format.ts:25 (STATUS_LABEL)
+- Problema: La matrícula reprobada tenía la etiqueta 'Aprobada', engañando al estudiante en historial y materias.
+- Solución: reprobada: 'Reprobada'.
+- Cómo demostrarlo: Estudiante con una materia reprobada → Historial. Antes 'Aprobada' (en rojo), después 'Reprobada'.
+- Estado: corregido sin verificar
+
