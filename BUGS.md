@@ -133,3 +133,10 @@
 - Cómo demostrarlo: (a) Admin → Matrículas → acción Cancelar: antes 404, después cancela. (b) Docente → Mis grupos: antes '40 / 12', después '12 / 40'.
 - Estado: corregido sin verificar
 
+## FE-20  Mis grupos (docente) no filtra por el periodo abierto por defecto
+- Dónde: src/app/(app)/docente/grupos/page.tsx:21
+- Problema: Sin ?period en la URL el selector muestra el periodo abierto, pero la consulta solo filtraba si 'requested' venía en la URL: se listaban grupos de todos los periodos.
+- Solución: Filtrar por 'selected' (periodo abierto por defecto) salvo 'todos'.
+- Cómo demostrarlo: Docente → Mis grupos sin parámetros: antes aparecen grupos de periodos cerrados; después solo los del periodo abierto (igual que el Inicio del docente).
+- Estado: corregido sin verificar
+
