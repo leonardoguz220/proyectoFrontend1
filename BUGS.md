@@ -154,3 +154,10 @@
 - Cómo demostrarlo: Docente → Notas: escribir 3,5. Antes celda roja 'notas inválidas'; después se acepta y guarda 3.5.
 - Estado: corregido sin verificar
 
+## FE-23  Admin: los filtros se pierden al pasar de página
+- Dónde: src/components/admin/resource-manager.tsx:115 (load)
+- Problema: Los filtros solo se agregaban a la URL cuando page === 1; en la página 2+ la lista mostraba registros de todos los estados/roles mezclados.
+- Solución: Enviar siempre los filtros activos.
+- Cómo demostrarlo: Admin → Usuarios, filtrar Rol=Docente, ir a 'Siguiente': antes aparecen estudiantes/admin y cambia el total; después siguen solo docentes.
+- Estado: corregido sin verificar
+
